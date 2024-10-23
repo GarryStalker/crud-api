@@ -72,6 +72,7 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 	for _, item := range movies {
 		if item.ID == params["id"] {
 			json.NewEncoder(w).Encode(item)
+			break
 		}
 	}
 }
@@ -97,8 +98,10 @@ func updateMovie(w http.ResponseWriter, r *http.Request) {
 			movies = append(movies[:i], movies[i+1:]...)
 			var movie Movie
 			_ = json.NewDecoder(r.Body).Decode(&movie)
+			movie.ID = params["id"]
 			movies = append(movies, movie)
 			json.NewEncoder(w).Encode(movies[i])
+			break
 		}
 	}
 }
